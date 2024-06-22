@@ -1,0 +1,77 @@
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getGroups } from "@/config/firebase-helper";
+import { ActivityIndicator, FAB, List, Title } from "react-native-paper";
+import { ScrollView, StyleSheet, View } from "react-native";
+
+const iconMap = {
+  trip: "airplane",
+  home: "home",
+  couple: "heart",
+  other: "information",
+};
+
+function getIcon(category: string): string {
+  return iconMap[category];
+}
+
+export default function Groups({ navigation }) {
+  const { status, data, error, isFetching } = useQuery({
+    queryKey: ["groups"],
+    queryFn: getGroups,
+  });
+
+  return status === "pending" ? (
+    <Title>Pending</Title>
+  ) : status === "error" ? (
+    <Title>Error {error?.message}</Title>
+  ) : (
+    <View style={styles.container}>
+      <List.Section style={{ padding: 10 }}>
+        {isFetching ? <ActivityIndicator /> : null}
+        <ScrollView>
+          {data?.map((item) => (
+            <List.Item
+              onPress={() => {
+                navigation.navigate("GroupsExpense", {
+                  id: item?.id,
+                });
+              }}
+              key={item?.id}
+              left={() => (
+                <List.Icon
+                  style={{
+                    backgroundColor: "orange",
+                    padding: 10,
+                    borderRadius: 5,
+                  }}
+                  icon={getIcon(item?.category?.toLowerCase()) || "information"}
+                />
+              )}
+              title={<Title>{item?.name}</Title>}
+            />
+          ))}
+        </ScrollView>
+      </List.Section>
+      <FAB
+        label="Create Group"
+        style={styles.fab}
+        icon={"plus"}
+        onPress={() => navigation.navigate("CreateGroup")}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  fab: {
+    backgroundColor: "orange",
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+  container: {
+    flex: 1,
+  },
+});
