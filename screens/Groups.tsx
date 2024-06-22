@@ -30,15 +30,34 @@ export default function Groups({ navigation }: any) {
       <List.Section>
         {isFetching ? <ActivityIndicator /> : null}
         <ScrollView>
-          {data?.map((item) => (
+          {data && data?.length > 0 ? (
+            data?.map((item) => (
+              <List.Item
+                onPress={() => {
+                  navigation.navigate("GroupsExpense", {
+                    id: item?.id,
+                    title: item?.name,
+                  });
+                }}
+                key={item?.id}
+                left={() => (
+                  <List.Icon
+                    style={{
+                      backgroundColor: "orange",
+                      padding: 10,
+                      borderRadius: 5,
+                    }}
+                    icon={
+                      getIcon(item?.category?.toLowerCase()) || "information"
+                    }
+                  />
+                )}
+                title={<Title>{item?.name}</Title>}
+              />
+            ))
+          ) : (
             <List.Item
-              onPress={() => {
-                navigation.navigate("GroupsExpense", {
-                  id: item?.id,
-                  title: item?.name,
-                });
-              }}
-              key={item?.id}
+              title="Start by creating a new group!"
               left={() => (
                 <List.Icon
                   style={{
@@ -46,12 +65,12 @@ export default function Groups({ navigation }: any) {
                     padding: 10,
                     borderRadius: 5,
                   }}
-                  icon={getIcon(item?.category?.toLowerCase()) || "information"}
+                  icon={"plus"}
                 />
               )}
-              title={<Title>{item?.name}</Title>}
+              onPress={() => navigation.navigate("CreateGroup")}
             />
-          ))}
+          )}
         </ScrollView>
       </List.Section>
       <FAB

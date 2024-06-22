@@ -34,7 +34,7 @@ export default function CreateGroup({ navigation }: CreateGroupProps) {
 
   useEffect(() => {
     if (mutation.isSuccess) {
-      navigation.replace("GroupsExpense", { id: mutation?.data });
+      navigation.replace("GroupsExpense", { id: mutation?.data, title: name });
     }
   }, [mutation.isSuccess, navigation]);
 
