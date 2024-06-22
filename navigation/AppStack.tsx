@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Groups from "@/screens/Groups";
 import GroupExpense from "@/screens/GroupExpense";
 import CreateGroup from "@/screens/CreateGroup";
+import React from "react";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 

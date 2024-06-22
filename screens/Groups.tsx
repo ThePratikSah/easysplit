@@ -9,13 +9,13 @@ const iconMap = {
   home: "home",
   couple: "heart",
   other: "information",
-};
+} as { [key: string]: string };
 
 function getIcon(category: string): string {
   return iconMap[category];
 }
 
-export default function Groups({ navigation }) {
+export default function Groups({ navigation }: any) {
   const { status, data, error, isFetching } = useQuery({
     queryKey: ["groups"],
     queryFn: getGroups,
@@ -27,7 +27,7 @@ export default function Groups({ navigation }) {
     <Title>Error {error?.message}</Title>
   ) : (
     <View style={styles.container}>
-      <List.Section style={{ padding: 10 }}>
+      <List.Section>
         {isFetching ? <ActivityIndicator /> : null}
         <ScrollView>
           {data?.map((item) => (
@@ -35,6 +35,7 @@ export default function Groups({ navigation }) {
               onPress={() => {
                 navigation.navigate("GroupsExpense", {
                   id: item?.id,
+                  title: item?.name,
                 });
               }}
               key={item?.id}
@@ -73,5 +74,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    paddingHorizontal: 10,
   },
 });

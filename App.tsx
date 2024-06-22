@@ -5,6 +5,7 @@ import useIsLoggedIn from "./hooks/useIsLoggedIn";
 import AuthStack from "./navigation/AuthStack";
 import AppStack from "./navigation/AppStack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 const queryClient = new QueryClient();
