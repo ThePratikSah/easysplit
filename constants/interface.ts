@@ -1,4 +1,4 @@
 export type RootStackParamList = {
   Event: {};
-  GroupsExpense: { id: string; title: string };
+  GroupsExpense: { id: string | void; title: string };
 };

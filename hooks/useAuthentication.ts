@@ -3,7 +3,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { Alert } from "react-native";
+import Toast from "react-native-toast-message";
 import { useState } from "react";
 import { auth } from "@/config/firebase";
 
@@ -24,8 +24,13 @@ const useAuthentication = () => {
       "and password:",
       password
     );
-    if (!validate(email, password))
-      return Alert.alert("Invalid email or password");
+    if (!validate(email, password)) {
+      Toast.show({
+        type: "error",
+        text1: "Invalid email or password",
+      });
+      return;
+    }
     try {
       const registerUser = await createUserWithEmailAndPassword(
         auth,
@@ -35,8 +40,12 @@ const useAuthentication = () => {
       console.log("User registered:", registerUser);
     } catch (err) {
       const error = err as Error;
-      Alert.alert("Error registering user", error.message);
       console.log("Error registering user:", error);
+      Toast.show({
+        type: "error",
+        text1: "Error registering user",
+      });
+      return;
     }
     setLoading(false);
   };
@@ -49,8 +58,13 @@ const useAuthentication = () => {
       "and password:",
       password
     );
-    if (!validate(email, password))
-      return Alert.alert("Invalid email or password");
+    if (!validate(email, password)) {
+      Toast.show({
+        type: "error",
+        text1: "Invalid email or password",
+      });
+      return;
+    }
     try {
       const registerUser = await signInWithEmailAndPassword(
         auth,
@@ -60,7 +74,10 @@ const useAuthentication = () => {
       console.log("User logged in:", registerUser);
     } catch (err) {
       const error = err as Error;
-      Alert.alert("Error login user", error.message);
+      Toast.show({
+        type: "error",
+        text1: "Error login user",
+      });
       console.log("Error login user:", error);
     }
     setLoading(false);
@@ -74,7 +91,10 @@ const useAuthentication = () => {
       console.log("User logged out");
     } catch (err) {
       const error = err as Error;
-      Alert.alert("Error loggging out user", error.message);
+      Toast.show({
+        type: "error",
+        text1: "Error loggging out userd",
+      });
       console.log("Error loggging out user:", error);
     }
     setLoading(false);

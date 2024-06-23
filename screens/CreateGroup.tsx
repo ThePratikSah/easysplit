@@ -11,6 +11,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createGroup } from "@/config/firebase-helper";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/constants/interface";
+import { auth } from "@/config/firebase";
+import Toast from "react-native-toast-message";
 
 type CreateGroupProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, "GroupsExpense">;
@@ -38,12 +40,21 @@ export default function CreateGroup({ navigation }: CreateGroupProps) {
     }
   }, [mutation.isSuccess, navigation]);
 
-  function handleFormSubmit() {
+  async function handleFormSubmit() {
     if (!selectedCategory) return;
+    const { currentUser: user } = auth;
+    if (!user) {
+      Toast.show({
+        type: "error",
+        text1: "User not logged in",
+      });
+      return;
+    }
     mutation.mutate({
       category: selectedCategory,
       name,
-      userId: "Nd0yFruaSYa0SoQmHP4NWZfyMMY2",
+      userId: user?.uid as string,
+      groupMembers: [user?.email!],
     });
   }
 
@@ -67,7 +78,7 @@ export default function CreateGroup({ navigation }: CreateGroupProps) {
             mode="outlined"
             showSelectedOverlay={selectedCategory === category}
             selected={selectedCategory === category}
-            style={{ marginRight: 5 }}
+            style={{ marginRight: 5, marginBottom: 5 }}
             icon={
               category === "Trip"
                 ? "airplane"

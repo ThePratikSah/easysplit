@@ -16,10 +16,7 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
-          <Navigator
-            screenOptions={{ headerShown: false }}
-            initialRouteName="Login"
-          >
+          <Navigator screenOptions={{ headerShown: false }}>
             {!isLoggedIn ? (
               <Screen name="AuthStack" component={AuthStack} />
             ) : (

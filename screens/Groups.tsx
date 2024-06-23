@@ -22,7 +22,7 @@ export default function Groups({ navigation }: any) {
   });
 
   return status === "pending" ? (
-    <Title>Pending</Title>
+    <Title>Fetching groups...</Title>
   ) : status === "error" ? (
     <Title>Error {error?.message}</Title>
   ) : (
