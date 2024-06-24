@@ -44,10 +44,18 @@ export default function GroupExpense({ route, navigation }: any) {
         text1: "New group member added",
       });
     },
+    onError: (error) => {
+      let errorMessage = error?.message || "Something went wrong";
+      if (error.code === "auth/wrong-password") {
+        errorMessage = "Incorrect email or password.";
+      } else if (error.code === "auth/user-not-found") {
+        errorMessage = "User not found.";
+      }
+    },
   });
 
   // TODO: get expense info
-  const { status, data, error, isFetching } = useQuery({
+  const { status, data, error } = useQuery({
     queryKey: ["groupByID", id],
     queryFn: async () => getGroupById({ groupId: id }) as any,
   });
@@ -164,6 +172,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   button: {
+    height: 40,
     marginRight: 5,
     marginBottom: 5,
     borderRadius: 5,

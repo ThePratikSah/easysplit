@@ -66,19 +66,17 @@ const useAuthentication = () => {
       return;
     }
     try {
-      const registerUser = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log("User logged in:", registerUser);
+      const loginUser = await signInWithEmailAndPassword(auth, email, password);
+      console.log("User logged in:", loginUser);
     } catch (err) {
       const error = err as Error;
-      Toast.show({
-        type: "error",
-        text1: "Error login user",
-      });
-      console.log("Error login user:", error);
+
+      if (error?.message.includes("invalid-credential")) {
+        Toast.show({
+          type: "error",
+          text1: "Invalid credentials",
+        });
+      }
     }
     setLoading(false);
   };

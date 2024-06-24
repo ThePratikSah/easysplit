@@ -24,9 +24,17 @@ export default function Login() {
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button mode="outlined" onPress={() => login(email, password)}>
-        {loading ? <ActivityIndicator /> : "Login"}
-      </Button>
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <Button
+          style={style.loginButton}
+          mode="contained"
+          onPress={() => login(email, password)}
+        >
+          Login
+        </Button>
+      )}
     </View>
   );
 }
@@ -37,5 +45,8 @@ const style = StyleSheet.create({
   },
   inputWrapper: {
     marginBottom: 20,
+  },
+  loginButton: {
+    borderRadius: 5,
   },
 });
