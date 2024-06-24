@@ -5,6 +5,8 @@ import CreateGroup from "@/screens/CreateGroup";
 import React from "react";
 import { Button } from "react-native-paper";
 import useAuthentication from "@/hooks/useAuthentication";
+import AddExpense from "@/screens/AddExpense";
+import ExpenseDetails from "@/screens/ExpenseDetails";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -28,6 +30,16 @@ const AppStack = () => {
         name="GroupsExpense"
         component={GroupExpense}
         options={{ title: "Group Expense" }}
+      />
+      <Screen
+        name="AddExpense"
+        component={AddExpense}
+        options={{ title: "Add Expense" }}
+      />
+      <Screen
+        name="ExpenseDetails"
+        component={ExpenseDetails}
+        options={{ title: "Expense Details" }}
       />
     </Navigator>
   );

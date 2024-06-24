@@ -44,14 +44,6 @@ export default function GroupExpense({ route, navigation }: any) {
         text1: "New group member added",
       });
     },
-    onError: (error) => {
-      let errorMessage = error?.message || "Something went wrong";
-      if (error.code === "auth/wrong-password") {
-        errorMessage = "Incorrect email or password.";
-      } else if (error.code === "auth/user-not-found") {
-        errorMessage = "User not found.";
-      }
-    },
   });
 
   // TODO: get expense info
@@ -133,14 +125,22 @@ export default function GroupExpense({ route, navigation }: any) {
         <ScrollView>
           <List.Section>
             <List.Item
-              title={"Expense one"}
-              description={"Hope this one is good"}
-            />
-            <List.Item
-              title={"Expense one"}
-              description={"Hope this one is good"}
-            />
-            <List.Item
+              onPress={() => navigation.navigate("ExpenseDetails")}
+              left={() => (
+                <List.Icon
+                  style={{
+                    backgroundColor: "orange",
+                    padding: 10,
+                    borderRadius: 5,
+                  }}
+                  icon={"cash"}
+                />
+              )}
+              right={() => (
+                <Title style={{ fontSize: 16, fontWeight: "bold" }}>
+                  Rs. 300
+                </Title>
+              )}
               title={"Expense one"}
               description={"Hope this one is good"}
             />
@@ -151,7 +151,7 @@ export default function GroupExpense({ route, navigation }: any) {
         label="Add Expense"
         style={styles.fab}
         icon={"plus"}
-        onPress={() => {}}
+        onPress={() => navigation.navigate("AddExpense")}
       />
     </>
   );
@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 10,
+    marginBottom: 20,
   },
   buttonScrollGroup: {
     marginVertical: 10,

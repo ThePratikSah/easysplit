@@ -16,19 +16,18 @@ function getIcon(category: string): string {
 }
 
 export default function Groups({ navigation }: any) {
-  const { status, data, error, isFetching } = useQuery({
+  const { status, data, error } = useQuery({
     queryKey: ["groups"],
     queryFn: getGroups,
   });
 
   return status === "pending" ? (
-    <Title>Fetching groups...</Title>
+    <ActivityIndicator />
   ) : status === "error" ? (
     <Title>Error {error?.message}</Title>
   ) : (
     <View style={styles.container}>
       <List.Section>
-        {isFetching ? <ActivityIndicator /> : null}
         <ScrollView>
           {data && data?.length > 0 ? (
             data?.map((item) => (
