@@ -8,7 +8,7 @@ import {
   Title,
 } from "react-native-paper";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createGroup } from "@/config/firebase-helper";
+import { createGroup, formatGroupName } from "@/config/firebase-helper";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/constants/interface";
 import { auth } from "@/config/firebase";
@@ -36,7 +36,10 @@ export default function CreateGroup({ navigation }: CreateGroupProps) {
 
   useEffect(() => {
     if (mutation.isSuccess) {
-      navigation.replace("GroupsExpense", { id: mutation?.data, title: name });
+      navigation.replace("GroupsExpense", {
+        id: mutation?.data,
+        title: formatGroupName(name),
+      });
     }
   }, [mutation.isSuccess, navigation]);
 

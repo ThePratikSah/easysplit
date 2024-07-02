@@ -62,7 +62,7 @@ async function createGroup({
   try {
     const createdAt = new Date().getTime();
     const d = await addDoc(groupCol, {
-      name,
+      name: formatGroupName(name),
       category,
       createdAt,
       userId,
@@ -157,4 +157,26 @@ function isValidEmail(email: string): boolean {
   return emailRegex.test(email);
 }
 
-export { getGroups, createGroup, addUserToGroup, getGroupById, isValidEmail };
+function formatGroupName(groupName: string) {
+  // Split the group name into an array of words
+  const words = groupName.split(" ");
+
+  // Capitalize the first letter of each word
+  const formattedWords = words.map((word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  });
+
+  // Join the formatted words back into a single string
+  const formattedGroupName = formattedWords.join(" ");
+
+  return formattedGroupName;
+}
+
+export {
+  getGroups,
+  createGroup,
+  addUserToGroup,
+  getGroupById,
+  isValidEmail,
+  formatGroupName,
+};

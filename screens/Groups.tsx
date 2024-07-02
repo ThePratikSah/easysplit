@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getGroups } from "@/config/firebase-helper";
 import { ActivityIndicator, FAB, List, Title } from "react-native-paper";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 
 const iconMap = {
   trip: "airplane",
@@ -16,19 +16,28 @@ function getIcon(category: string): string {
 }
 
 export default function Groups({ navigation }: any) {
-  const { status, data, error } = useQuery({
+  const { status, data, error, refetch, isLoading } = useQuery({
     queryKey: ["groups"],
     queryFn: getGroups,
   });
 
+  const onRefresh = useCallback(() => {
+    refetch();
+  }, []);
+
   return status === "pending" ? (
-    <ActivityIndicator />
+    <ActivityIndicator style={{ marginTop: 10 }} />
   ) : status === "error" ? (
     <Title>Error {error?.message}</Title>
   ) : (
     <View style={styles.container}>
       <List.Section>
-        <ScrollView>
+        <ScrollView
+          style={styles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+          }
+        >
           {data && data?.length > 0 ? (
             data?.map((item) => (
               <List.Item
@@ -93,5 +102,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 10,
+  },
+  scrollView: {
+    height: "100%",
   },
 });

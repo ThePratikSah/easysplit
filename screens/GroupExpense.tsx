@@ -1,5 +1,5 @@
-import { View, StyleSheet, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView, RefreshControl } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Avatar,
@@ -40,17 +40,21 @@ export default function GroupExpense({ route, navigation }: any) {
       setEmail("");
       queryClient.invalidateQueries({ queryKey: ["groupByID"] });
       Toast.show({
-        type: "Success",
+        type: "success",
         text1: "New group member added",
       });
     },
   });
 
   // TODO: get expense info
-  const { status, data, error } = useQuery({
+  const { status, data, error, isFetching, refetch } = useQuery({
     queryKey: ["groupByID", id],
     queryFn: async () => getGroupById({ groupId: id }) as any,
   });
+
+  const onRefresh = useCallback(() => {
+    refetch();
+  }, []);
 
   async function handleFormSubmit() {
     if (!email || !isValidEmail(email)) {
@@ -63,7 +67,7 @@ export default function GroupExpense({ route, navigation }: any) {
 
     setLoading(true);
     mutation.mutate({
-      email,
+      email: email.toLowerCase(),
       groupId: id,
     });
   }
@@ -122,7 +126,11 @@ export default function GroupExpense({ route, navigation }: any) {
           </View>
         </ScrollView>
         <Title>Expenses</Title>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={isFetching} onRefresh={onRefresh} />
+          }
+        >
           <List.Section>
             <List.Item
               onPress={() => navigation.navigate("ExpenseDetails")}
@@ -151,7 +159,9 @@ export default function GroupExpense({ route, navigation }: any) {
         label="Add Expense"
         style={styles.fab}
         icon={"plus"}
-        onPress={() => navigation.navigate("AddExpense")}
+        onPress={() =>
+          navigation.navigate("AddExpense", { members: data?.groupMembers })
+        }
       />
     </>
   );
