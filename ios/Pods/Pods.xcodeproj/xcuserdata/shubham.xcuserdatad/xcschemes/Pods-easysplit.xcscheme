@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D8B4476A813FCFC6144C08FF82D55E33"
-               BuildableName = "libPods-easysplit.a"
+               BuildableName = "Pods_easysplit.framework"
                BlueprintName = "Pods-easysplit"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

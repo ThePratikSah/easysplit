@@ -1,5 +1,5 @@
-import { View, StyleSheet, ScrollView, RefreshControl } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Avatar,
@@ -10,20 +10,20 @@ import {
   Portal,
   TextInput,
   Title,
-} from "react-native-paper";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+} from 'react-native-paper';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   addUserToGroup,
   getGroupById,
   isValidEmail,
-} from "@/config/firebase-helper";
-import Toast from "react-native-toast-message";
+} from '../config/firebase-helper';
+import Toast from 'react-native-toast-message';
 
 export default function GroupExpense({ route, navigation }: any) {
   const { id, title } = route.params;
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -37,18 +37,18 @@ export default function GroupExpense({ route, navigation }: any) {
     onSuccess: () => {
       hideModal();
       setLoading(false);
-      setEmail("");
-      queryClient.invalidateQueries({ queryKey: ["groupByID"] });
+      setEmail('');
+      queryClient.invalidateQueries({ queryKey: ['groupByID'] });
       Toast.show({
-        type: "success",
-        text1: "New group member added",
+        type: 'success',
+        text1: 'New group member added',
       });
     },
   });
 
   // TODO: get expense info
   const { status, data, error, isFetching, refetch } = useQuery({
-    queryKey: ["groupByID", id],
+    queryKey: ['groupByID', id],
     queryFn: async () => getGroupById({ groupId: id }) as any,
   });
 
@@ -59,8 +59,8 @@ export default function GroupExpense({ route, navigation }: any) {
   async function handleFormSubmit() {
     if (!email || !isValidEmail(email)) {
       Toast.show({
-        type: "error",
-        text1: "Please enter a valid email",
+        type: 'error',
+        text1: 'Please enter a valid email',
       });
       return;
     }
@@ -72,9 +72,9 @@ export default function GroupExpense({ route, navigation }: any) {
     });
   }
 
-  return status === "pending" ? (
+  return status === 'pending' ? (
     <Title>Fetching group data...</Title>
-  ) : status === "error" ? (
+  ) : status === 'error' ? (
     <Title>Error {error?.message}</Title>
   ) : (
     <>
@@ -91,7 +91,7 @@ export default function GroupExpense({ route, navigation }: any) {
               style={styles.inputWrapper}
               label="Email"
               value={email}
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={text => setEmail(text)}
             />
             {loading ? (
               <ActivityIndicator />
@@ -114,7 +114,7 @@ export default function GroupExpense({ route, navigation }: any) {
           <Button onPress={showModal} style={styles.button} mode="contained">
             Add members
           </Button>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: 'row' }}>
             {data?.groupMembers?.map((member: string, index: number) => (
               <Avatar.Text
                 key={index}
@@ -133,24 +133,24 @@ export default function GroupExpense({ route, navigation }: any) {
         >
           <List.Section>
             <List.Item
-              onPress={() => navigation.navigate("ExpenseDetails")}
+              onPress={() => navigation.navigate('ExpenseDetails')}
               left={() => (
                 <List.Icon
                   style={{
-                    backgroundColor: "orange",
+                    backgroundColor: 'orange',
                     padding: 10,
                     borderRadius: 5,
                   }}
-                  icon={"cash"}
+                  icon={'cash'}
                 />
               )}
               right={() => (
-                <Title style={{ fontSize: 16, fontWeight: "bold" }}>
+                <Title style={{ fontSize: 16, fontWeight: 'bold' }}>
                   Rs. 300
                 </Title>
               )}
-              title={"Expense one"}
-              description={"Hope this one is good"}
+              title={'Expense one'}
+              description={'Hope this one is good'}
             />
           </List.Section>
         </ScrollView>
@@ -158,9 +158,9 @@ export default function GroupExpense({ route, navigation }: any) {
       <FAB
         label="Add Expense"
         style={styles.fab}
-        icon={"plus"}
+        icon={'plus'}
         onPress={() =>
-          navigation.navigate("AddExpense", { members: data?.groupMembers })
+          navigation.navigate('AddExpense', { members: data?.groupMembers })
         }
       />
     </>
@@ -169,8 +169,8 @@ export default function GroupExpense({ route, navigation }: any) {
 
 const styles = StyleSheet.create({
   fab: {
-    backgroundColor: "orange",
-    position: "absolute",
+    backgroundColor: 'orange',
+    position: 'absolute',
     margin: 16,
     right: 0,
     bottom: 0,
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   modalStyle: {
     margin: 20,
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 5,
   },
   inputWrapper: {

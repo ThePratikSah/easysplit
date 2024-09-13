@@ -1,14 +1,15 @@
-import { auth } from "@/config/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import auth from '@react-native-firebase/auth';
+import { useEffect, useState } from 'react';
 
 const useIsLoggedIn = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setIsLoggedIn(!!user);
+    const unsubscribe = auth().onAuthStateChanged(authUser => {
+      setIsLoggedIn(!!authUser);
     });
+
+    return unsubscribe;
   }, []);
 
   return { isLoggedIn };

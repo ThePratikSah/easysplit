@@ -1,28 +1,28 @@
-import { StyleSheet, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Button,
   Chip,
   TextInput,
   Title,
-} from "react-native-paper";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createGroup, formatGroupName } from "@/config/firebase-helper";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/constants/interface";
-import { auth } from "@/config/firebase";
-import Toast from "react-native-toast-message";
+} from 'react-native-paper';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createGroup, formatGroupName } from '../config/firebase-helper';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../constants/interface';
+import { auth } from '../config/firebase';
+import Toast from 'react-native-toast-message';
 
 type CreateGroupProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, "GroupsExpense">;
+  navigation: NativeStackNavigationProp<RootStackParamList, 'GroupsExpense'>;
 };
 
-const categories = ["Trip", "Home", "Couple", "Other"];
+const categories = ['Trip', 'Home', 'Couple', 'Other'];
 
 export default function CreateGroup({ navigation }: CreateGroupProps) {
-  const [name, setName] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("Trip");
+  const [name, setName] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('Trip');
 
   const handleChipPress = (category: string) => {
     setSelectedCategory(category);
@@ -31,12 +31,12 @@ export default function CreateGroup({ navigation }: CreateGroupProps) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createGroup,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["groups"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['groups'] }),
   });
 
   useEffect(() => {
     if (mutation.isSuccess) {
-      navigation.replace("GroupsExpense", {
+      navigation.replace('GroupsExpense', {
         id: mutation?.data,
         title: formatGroupName(name),
       });
@@ -48,8 +48,8 @@ export default function CreateGroup({ navigation }: CreateGroupProps) {
     const { currentUser: user } = auth;
     if (!user) {
       Toast.show({
-        type: "error",
-        text1: "User not logged in",
+        type: 'error',
+        text1: 'User not logged in',
       });
       return;
     }
@@ -66,16 +66,16 @@ export default function CreateGroup({ navigation }: CreateGroupProps) {
       <TextInput
         mode="outlined"
         style={style.inputWrapper}
-        label={"Name"}
+        label={'Name'}
         value={name}
-        onChangeText={(text) => setName(text)}
+        onChangeText={text => setName(text)}
       />
 
       <Title style={{ fontSize: 14 }}>Type</Title>
       <View
-        style={{ flexDirection: "row", flexWrap: "wrap", marginBottom: 10 }}
+        style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 10 }}
       >
-        {categories.map((category) => (
+        {categories.map(category => (
           <Chip
             key={category}
             mode="outlined"
@@ -83,13 +83,13 @@ export default function CreateGroup({ navigation }: CreateGroupProps) {
             selected={selectedCategory === category}
             style={{ marginRight: 5, marginBottom: 5 }}
             icon={
-              category === "Trip"
-                ? "airplane"
-                : category === "Home"
-                ? "home"
-                : category === "Couple"
-                ? "heart"
-                : "information"
+              category === 'Trip'
+                ? 'airplane'
+                : category === 'Home'
+                ? 'home'
+                : category === 'Couple'
+                ? 'heart'
+                : 'information'
             }
             onPress={() => handleChipPress(category)}
           >

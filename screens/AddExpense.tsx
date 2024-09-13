@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
-import { Avatar, Button, TextInput } from "react-native-paper";
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React from 'react';
+import { Avatar, Button, TextInput } from 'react-native-paper';
 
 export default function AddExpense({ route, navigation }: any) {
   const { members } = route.params;
@@ -12,7 +12,7 @@ export default function AddExpense({ route, navigation }: any) {
         showsHorizontalScrollIndicator={false}
         style={style.buttonScrollGroup}
       >
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: 'row' }}>
           {members?.map((member: string, index: number) => (
             <Avatar.Text
               key={index}
@@ -26,9 +26,9 @@ export default function AddExpense({ route, navigation }: any) {
       <TextInput
         style={style.inputWrapper}
         mode="outlined"
-        label={"Description"}
+        label={'Description'}
       />
-      <TextInput style={style.inputWrapper} mode="outlined" label={"Amount"} />
+      <TextInput style={style.inputWrapper} mode="outlined" label={'Amount'} />
       <Button>Paid by you and split equally</Button>
       <Button mode="contained">Add</Button>
     </View>

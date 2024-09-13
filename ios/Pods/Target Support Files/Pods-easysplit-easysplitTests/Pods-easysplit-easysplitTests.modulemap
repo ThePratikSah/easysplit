@@ -1,0 +1,6 @@
+framework module Pods_easysplit_easysplitTests {
+  umbrella header "Pods-easysplit-easysplitTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

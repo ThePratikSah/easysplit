@@ -10,10 +10,10 @@ import {
   where,
   onSnapshot,
   getDoc,
-} from "firebase/firestore";
-import { auth, db } from "./firebase";
-import { collectionNames } from "@/constants";
-import Toast from "react-native-toast-message";
+} from 'firebase/firestore';
+import { auth, db } from './firebase';
+import { collectionNames } from '../constants';
+import Toast from 'react-native-toast-message';
 
 export interface Group {
   id?: string;
@@ -31,34 +31,34 @@ async function getGroups() {
     const { currentUser } = auth;
     const groupCollectionQuery = query(
       groupCol,
-      orderBy("createdAt", "desc"),
-      where("groupMembers", "array-contains", currentUser?.email)
+      orderBy('createdAt', 'desc'),
+      where('groupMembers', 'array-contains', currentUser?.email),
     );
     const groupList: Group[] = [];
     const groupSnapshot = await getDocs(groupCollectionQuery);
-    groupSnapshot.forEach((doc) => {
+    groupSnapshot.forEach(doc => {
       groupList.push({
         id: doc?.id,
-        ...(doc.data() as Omit<Group, "id">),
+        ...(doc.data() as Omit<Group, 'id'>),
       });
     });
 
     return groupList;
   } catch (error) {
-    console.error("Failed fetching groups: ", error);
+    console.error('Failed fetching groups: ', error);
     return Toast.show({
-      type: "error",
-      text1: "Failed fetching groups",
+      type: 'error',
+      text1: 'Failed fetching groups',
     });
   }
 }
 
 async function createGroup({
   name,
-  category = "other",
+  category = 'other',
   userId,
   groupMembers,
-}: Pick<Group, "name" | "category" | "userId" | "groupMembers">) {
+}: Pick<Group, 'name' | 'category' | 'userId' | 'groupMembers'>) {
   try {
     const createdAt = new Date().getTime();
     const d = await addDoc(groupCol, {
@@ -70,10 +70,10 @@ async function createGroup({
     });
     return d.id;
   } catch (error) {
-    console.error("Failed to create group");
+    console.error('Failed to create group');
     return Toast.show({
-      type: "error",
-      text1: "Failed to create group",
+      type: 'error',
+      text1: 'Failed to create group',
     });
   }
 }
@@ -91,10 +91,10 @@ async function addUserToGroup({
       groupMembers: arrayUnion(email),
     });
   } catch (error) {
-    console.error("Failed to add user in group");
+    console.error('Failed to add user in group');
     return Toast.show({
-      type: "error",
-      text1: "Failed to add user in group",
+      type: 'error',
+      text1: 'Failed to add user in group',
     });
   }
 }
@@ -106,7 +106,7 @@ async function getGroupById({
 }): Promise<Group | null> {
   try {
     if (!groupId) {
-      console.error("No group id provided");
+      console.error('No group id provided');
       return null;
     }
     const groupRef = doc(db, collectionNames.GROUP, groupId);
@@ -115,14 +115,14 @@ async function getGroupById({
     if (groupSnapshot.exists()) {
       return { id: groupSnapshot.id, ...groupSnapshot.data() } as Group;
     } else {
-      console.log("No such group!");
+      console.log('No such group!');
       return null; // Or handle the case where the group doesn't exist as needed
     }
   } catch (error) {
-    console.error("Failed fetching group: ", error);
+    console.error('Failed fetching group: ', error);
     Toast.show({
-      type: "error",
-      text1: "Failed fetching group info",
+      type: 'error',
+      text1: 'Failed fetching group info',
     });
     return null;
   }
@@ -159,15 +159,15 @@ function isValidEmail(email: string): boolean {
 
 function formatGroupName(groupName: string) {
   // Split the group name into an array of words
-  const words = groupName.split(" ");
+  const words = groupName.split(' ');
 
   // Capitalize the first letter of each word
-  const formattedWords = words.map((word) => {
+  const formattedWords = words.map(word => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   });
 
   // Join the formatted words back into a single string
-  const formattedGroupName = formattedWords.join(" ");
+  const formattedGroupName = formattedWords.join(' ');
 
   return formattedGroupName;
 }

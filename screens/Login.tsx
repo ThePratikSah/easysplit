@@ -1,11 +1,11 @@
-import { View, StyleSheet } from "react-native";
-import React, { useState } from "react";
-import { ActivityIndicator, Button, TextInput } from "react-native-paper";
-import useAuthentication from "@/hooks/useAuthentication";
+import { View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, Button, TextInput } from 'react-native-paper';
+import useAuthentication from '../hooks/useAuthentication';
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { login, loading } = useAuthentication();
   return (
     <View style={style.container}>
@@ -14,7 +14,7 @@ export default function Login() {
         style={style.inputWrapper}
         label="Email"
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={text => setEmail(text)}
       />
       <TextInput
         mode="outlined"
@@ -22,7 +22,7 @@ export default function Login() {
         label="Password"
         secureTextEntry={true}
         value={password}
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={text => setPassword(text)}
       />
       {loading ? (
         <ActivityIndicator />
