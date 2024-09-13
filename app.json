@@ -1,34 +1,4 @@
 {
-  "expo": {
-    "name": "easysplit",
-    "slug": "easysplit",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "dev.pratik.easysplit"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "dev.pratik.easysplit"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "ebba1976-18d0-4747-be15-d1e9c16d2483"
-      }
-    }
-  }
+  "name": "easysplit",
+  "displayName": "easysplit"
 }
