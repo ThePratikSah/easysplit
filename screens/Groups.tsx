@@ -1,14 +1,14 @@
-import React, { useCallback, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getGroups } from "@/config/firebase-helper";
-import { ActivityIndicator, FAB, List, Title } from "react-native-paper";
-import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import React, { useCallback, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getGroups } from '../config/firebase-helper';
+import { ActivityIndicator, FAB, List, Title } from 'react-native-paper';
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 
 const iconMap = {
-  trip: "airplane",
-  home: "home",
-  couple: "heart",
-  other: "information",
+  trip: 'airplane',
+  home: 'home',
+  couple: 'heart',
+  other: 'information',
 } as { [key: string]: string };
 
 function getIcon(category: string): string {
@@ -17,7 +17,7 @@ function getIcon(category: string): string {
 
 export default function Groups({ navigation }: any) {
   const { status, data, error, refetch, isLoading } = useQuery({
-    queryKey: ["groups"],
+    queryKey: ['groups'],
     queryFn: getGroups,
   });
 
@@ -25,9 +25,9 @@ export default function Groups({ navigation }: any) {
     refetch();
   }, []);
 
-  return status === "pending" ? (
+  return status === 'pending' ? (
     <ActivityIndicator style={{ marginTop: 10 }} />
-  ) : status === "error" ? (
+  ) : status === 'error' ? (
     <Title>Error {error?.message}</Title>
   ) : (
     <View style={styles.container}>
@@ -39,10 +39,10 @@ export default function Groups({ navigation }: any) {
           }
         >
           {data && data?.length > 0 ? (
-            data?.map((item) => (
+            data?.map(item => (
               <List.Item
                 onPress={() => {
-                  navigation.navigate("GroupsExpense", {
+                  navigation.navigate('GroupsExpense', {
                     id: item?.id,
                     title: item?.name,
                   });
@@ -51,12 +51,12 @@ export default function Groups({ navigation }: any) {
                 left={() => (
                   <List.Icon
                     style={{
-                      backgroundColor: "orange",
+                      backgroundColor: 'orange',
                       padding: 10,
                       borderRadius: 5,
                     }}
                     icon={
-                      getIcon(item?.category?.toLowerCase()) || "information"
+                      getIcon(item?.category?.toLowerCase()) || 'information'
                     }
                   />
                 )}
@@ -69,14 +69,14 @@ export default function Groups({ navigation }: any) {
               left={() => (
                 <List.Icon
                   style={{
-                    backgroundColor: "orange",
+                    backgroundColor: 'orange',
                     padding: 10,
                     borderRadius: 5,
                   }}
-                  icon={"plus"}
+                  icon={'plus'}
                 />
               )}
-              onPress={() => navigation.navigate("CreateGroup")}
+              onPress={() => navigation.navigate('CreateGroup')}
             />
           )}
         </ScrollView>
@@ -84,8 +84,8 @@ export default function Groups({ navigation }: any) {
       <FAB
         label="Create Group"
         style={styles.fab}
-        icon={"plus"}
-        onPress={() => navigation.navigate("CreateGroup")}
+        icon={'plus'}
+        onPress={() => navigation.navigate('CreateGroup')}
       />
     </View>
   );
@@ -93,8 +93,8 @@ export default function Groups({ navigation }: any) {
 
 const styles = StyleSheet.create({
   fab: {
-    backgroundColor: "orange",
-    position: "absolute",
+    backgroundColor: 'orange',
+    position: 'absolute',
     margin: 16,
     right: 0,
     bottom: 0,
@@ -104,6 +104,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   scrollView: {
-    height: "100%",
+    height: '100%',
   },
 });
